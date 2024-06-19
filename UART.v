@@ -1,44 +1,71 @@
 module UART_CONTROLLER 
-  #(
-    parameter WORD_SIZE = 8, // bits
-    parameter BAUD_RATE = 9600, // 9.6 KHz
-    parameter CLOCK_FREQ = 50000000 // 50 MHz
-  )
   (
     input wire clk,
     input wire rst,
     input wire rx,
     output wire tx
   );
+  // Parameters
+  uart_parameters params(); 
+
   // Interrupt signals
-  wire rx_data_i; wire[WORD_SIZE-1:0] rx_data_temp; // Receiver has data to be read / data to be read
+  wire rx_data_i; wire[params.WORD_SIZE-1:0] rx_data; // Receiver has data to be read / data to be read
+  reg disable_data_interrupt;
+
+  initial begin 
+    disable_data_interrupt <= 0;
+  end
 
   // Memory
-  // ring buffer item
-  reg[WORD_SIZE-1:0] rx_data;
+  localparam RING_SIZE = 10;
+  reg[params.WORD_SIZE-1:0] ring_buffer[RING_SIZE-1:0]; // ring buffer memory item
+  reg[$clog2(RING_SIZE)-1:0] ring_size; // to store how many elements are in ring buffer
+  reg[$clog2(RING_SIZE)-1:0] read_ptr; // to point to where data begins in ring buffer
+  reg[$clog2(RING_SIZE)-1:0] write_ptr; // to point to first address data doesn't exist in ring buffer
+
+  initial begin
+    ring_size <= 0;
+    read_ptr <= 0;
+    write_ptr <= 0;
+  end
 
   // Module Objects
-  UART_RECEIVER uart_receiver(.clk(clk), .rst(rst), .rx(rx), .data_interrupt(rx_data_i), .data(rx_data_temp));
+  UART_RECEIVER uart_receiver(.clk(clk), .rst(rst), .rx(rx), .disable_data_interrupt(disable_data_interrupt), .enable_data_interrupt(rx_data_i), .data(rx_data));
   UART_TRANSMITTER uart_transmitter(.clk(clk), .rst(rst), .tx(tx));
 
   // Read from receiver
   always @ (posedge clk) begin
     if (rst) begin
-      rx_data <= 0;
+      ring_size <= 0;
+      read_ptr <= 0;
+      write_ptr <= 0;
     end else begin
-      if (rx_data_i) begin
-        rx_data <= rx_data_temp;
+      if (rx_data_i && !disable_data_interrupt) begin // need to read data
+        ring_buffer[write_ptr] <= rx_data;
+        if (write_ptr == (RING_SIZE-1)) begin
+          write_ptr <= 0;
+        end else begin
+          write_ptr <= (write_ptr + 1);
+        end
+        if (ring_size != RING_SIZE) begin
+          ring_size = (ring_size + 1);
+        end else begin 
+          if (read_ptr == RING_SIZE) begin
+            read_ptr <= 0;
+          end else begin
+            read_ptr <= (read_ptr + 1);
+          end
+        end
+        disable_data_interrupt <= 1; // value is read
+      end
+      else begin
+        disable_data_interrupt <= 0;
       end
     end
   end
 endmodule
 
 module UART_RECEIVER 
-  #( 
-    parameter WORD_SIZE = 8, // bits
-    parameter BAUD_RATE = 9600, // 9.6 KHz
-    parameter CLOCK_FREQ = 50000000 // 50 MHz
-  ) 
   (
     input wire clk,
     input wire rst,
@@ -47,9 +74,12 @@ module UART_RECEIVER
     output reg enable_data_interrupt, // lets controller know a piece of data is available
     output reg[7:0] data
   );
+  // Parameters
+  uart_parameters params();
+
   // Create Baud Clock Signal
   wire baud; 
-  localparam BAUD_LIMIT = CLOCK_FREQ / BAUD_RATE;
+  localparam BAUD_LIMIT = params.CLOCK_FREQ / params.BAUD_RATE;
   localparam QTR_BAUD = BAUD_LIMIT / 4;
   localparam THR_QTR_BAUD = BAUD_LIMIT * 0.8;
   reg[15:0] baud_counter;
@@ -98,6 +128,12 @@ module UART_RECEIVER
     STATE <= IDLE;
   end
 
+  always @ (posedge clk) begin // read interrupts from higher up
+    if (disable_data_interrupt) begin
+      enable_data_interrupt <= 0;
+    end
+  end
+
   // State Transition Logic
   always @ (posedge clk) begin
     if (rst) begin
@@ -119,8 +155,8 @@ module UART_RECEIVER
           // do nothing, as this is exited at quarter_baud
         end
         LISTEN: begin 
-          data[WORD_SIZE-1-bit_counter] <= rx; // catalog bit received
-          if (bit_counter == (WORD_SIZE-1)) begin
+          data[params.WORD_SIZE-1-bit_counter] <= rx; // catalog bit received
+          if (bit_counter == (params.WORD_SIZE-1)) begin
             bit_counter <= 0;
             STATE <= STOP;
           end else begin
