@@ -34,22 +34,23 @@ module TB_Controller_Simulator ();
   end
 
   integer i,j; // for loop
+  wire[params.WORD_SIZE-1:0] random_word;
+  assign random_word = j**2 + 3*j + 5 + (j+1)**3;
 
   // Simulate rx;
   initial begin : simulator
     // CORRECT BYTE
     rx1 <= 1; #(params.BAUD*6); // IDLE
-    for (j=0; j < 14; j = j + 1) begin
+    for (j=0; j < 14; j = j + 1) begin : named_for
       rx1 <= 0; #(params.BAUD); // START BIT
-
       for (i = 0; i < 8; i = i + 1) begin
-        rx1 <= (3*i*j + i + (j+1)**2 + j + j**2 + (2*i)**3) % 2; // Alternate between 0 and 1
+        rx1 <= random_word[i]; // Alternate between 0 and 1
         #(params.BAUD); // 1 baud cycle per bit
       end
 
       rx1 <= 1; #(params.BAUD); // END BIT
       rx1 <=1; #(params.BAUD*(0.25*j)); // IDLE
-    end
+    end : named_for
 
     // FAIL BYTE (DUE TO END BIT)
     rx1 <= 1; #(params.BAUD*6); // IDLE
