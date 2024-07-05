@@ -55,26 +55,45 @@ module UART_CONTROLLER
 
   // Listen for OS write commands to NIC (UART)
   always @ (posedge clk) begin
-    if (write_nic) begin
-      tx_ring_buffer[tx_write_ptr] <= data_in;
-      if (tx_write_ptr == (tx_RING_SIZE - 1)) begin
-        tx_write_ptr <= 0;
-      end else begin
-        tx_write_ptr <= (tx_write_ptr + 1);
-      end
-      if (tx_ring_size != tx_RING_SIZE) begin
-        tx_ring_size <= (tx_ring_size + 1);
-      end else begin
-        if (tx_read_ptr == (tx_RING_SIZE - 1)) begin
-          tx_read_ptr <= 0;
+    if (rst) begin
+      // do nothing
+    end else begin
+      if (write_nic) begin
+        tx_ring_buffer[tx_write_ptr] <= data_in;
+        if (tx_write_ptr == (tx_RING_SIZE - 1)) begin
+          tx_write_ptr <= 0;
         end else begin
-          tx_read_ptr <= (tx_read_ptr + 1);
+          tx_write_ptr <= (tx_write_ptr + 1);
+        end
+        if (tx_ring_size != tx_RING_SIZE) begin
+          tx_ring_size <= (tx_ring_size + 1);
+        end else begin
+          if (tx_read_ptr == (tx_RING_SIZE - 1)) begin
+            tx_read_ptr <= 0;
+          end else begin
+            tx_read_ptr <= (tx_read_ptr + 1);
+          end
         end
       end
     end
   end
 
   // Listen for OS read commands to NIC (UART)
+  always @ (posedge clk) begin
+    if (rst) begin
+      // do nothing
+    end else begin
+      if (read_nic) begin
+        data_out <= rx_ring_buffer[rx_read_ptr];
+        if (rx_read_ptr == (rx_RING_SIZE - 1)) begin
+          rx_read_ptr <= 0;
+        end else begin
+          rx_read_ptr <= (rx_read_ptr + 1);
+        end
+        rx_ring_size <= (rx_ring_size - 1);
+      end
+    end
+  end
 
   // Module Objects
   UART_RECEIVER uart_receiver(
