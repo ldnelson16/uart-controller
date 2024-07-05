@@ -3,3 +3,10 @@
 *.wlf
 work/*
 wlf*
+db/*
+incremental_db/*
+output_files/*
+simulation/*
+*.qsf
+*.bak
+*.qpf
