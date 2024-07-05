@@ -1,14 +1,13 @@
 module UART_RECEIVER 
   #(
-    parameter WORD_SIZE = 8;
+    parameter WORD_SIZE = 8
   )
   (
     input wire clk,
     input wire rst,
     input wire rx,
-    input wire disable_data_interrupt, // to turn off data interrupt
-    output reg enable_data_interrupt, // lets controller know a piece of data is available
-    output reg[WORD_SIZE-1:0] data
+    output reg[WORD_SIZE-1:0] data_read,
+    output reg rx_avbl_i // lets controller know a piece of data is available
   );
   // Parameters
   uart_parameters params();
@@ -42,8 +41,8 @@ module UART_RECEIVER
 
   initial begin
     bit_counter <= 0;
-    data <= 0;
-    enable_data_interrupt <= 0;
+    data_read <= 0;
+    rx_avbl_i <= 0;
   end
 
   always @ (posedge clk) begin
@@ -64,18 +63,12 @@ module UART_RECEIVER
     STATE <= IDLE;
   end
 
-  always @ (posedge clk) begin // read interrupts from higher up
-    if (disable_data_interrupt) begin
-      enable_data_interrupt <= 0;
-    end
-  end
-
-  // State Transition Logic
+  // State Transition Logic to read serial incoming data
   always @ (posedge clk) begin
     if (rst) begin
       STATE <= IDLE;
       bit_counter <= 0;
-      enable_data_interrupt <= 0;
+      rx_avbl_i <= 0;
     end else if (baud) begin
       case (STATE) 
         IDLE: begin 
@@ -91,7 +84,7 @@ module UART_RECEIVER
           // do nothing, as this is exited at quarter_baud
         end
         LISTEN: begin 
-          data[params.WORD_SIZE-1-bit_counter] <= rx; // catalog bit received
+          data_read[params.WORD_SIZE-1-bit_counter] <= rx; // catalog bit received
           if (bit_counter == (params.WORD_SIZE-1)) begin
             bit_counter <= 0;
             STATE <= STOP;
@@ -101,9 +94,9 @@ module UART_RECEIVER
         end
         STOP: begin 
           if (rx) begin // confirm stop bit (high) // if fail, do not trigger interrupt (discard byte)
-            enable_data_interrupt <= 1;
+            rx_avbl_i <= 1;
           end else begin
-            enable_data_interrupt <= 0;
+            rx_avbl_i <= 0;
           end
           STATE <= SECONDWAIT;
         end
@@ -128,8 +121,8 @@ module UART_RECEIVER
         end
       endcase
     end
-    if (disable_data_interrupt) begin
-      enable_data_interrupt <= 0;
+    if (rx_avbl_i) begin
+      rx_avbl_i <= 0;
     end
   end
 endmodule

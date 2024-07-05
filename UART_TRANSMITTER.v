@@ -1,22 +1,27 @@
 module UART_TRANSMITTER
   #(
-    parameter WORD_SIZE;  
+    parameter WORD_SIZE = 8  
   )
   (
     input wire clk,
     input wire rst,
-    input wire[WORD_SIZE-1:0] data,
-    input wire tx_send;
-    output reg tx_sent_i; // interrupt saying i sent the data
+    input wire[WORD_SIZE-1:0] data_send,
+    input wire tx_send_i,
+    output reg tx_avbl_i,
     output reg tx
   );
+  // Parameters
+  uart_parameters params();
+
   // Create Baud Clock Signals
   wire baud; 
-  localparam BAUD_LIMIT = CLOCK_FREQ / BAUD_RATE;
+  localparam BAUD_LIMIT = params.CLOCK_FREQ / params.BAUD_RATE;
   reg[15:0] baud_counter;
 
   initial begin 
     baud_counter <= 0;
+    tx_avbl_i <= 0;
+    tx <= 1;
   end
 
   assign baud = (baud_counter == 0);
@@ -24,8 +29,12 @@ module UART_TRANSMITTER
   // Bit Counter Variables (where you are in writing out a word)
   reg[$clog2(WORD_SIZE)-1:0] bit_counter;
 
+  initial begin 
+    bit_counter <= 0;
+  end
+
   // State variables
-  reg STATE;
+  reg[1:0] STATE;
   
   localparam IDLE = 0;
   localparam START = 1;
@@ -38,9 +47,13 @@ module UART_TRANSMITTER
     end else begin
       case (STATE)
         IDLE: begin
-          baud_counter <= 0;
+          if (baud || baud_counter == BAUD_LIMIT) begin
+            baud_counter <= 0;
+          end else begin
+            baud_counter <= (baud_counter + 1);
+          end
         end
-        START begin
+        START: begin
           if (baud_counter == BAUD_LIMIT) begin
             baud_counter <= 0;
           end else begin
@@ -75,8 +88,11 @@ module UART_TRANSMITTER
     end else begin
       case (STATE) 
         IDLE: begin 
-          if (tx_send) begin
-            STATE <= START;
+          if (baud) begin
+            if (tx_send_i) begin
+              STATE <= START;
+            end
+            tx <= 1;
           end
         end
         START: begin
@@ -84,18 +100,22 @@ module UART_TRANSMITTER
           STATE <= TRANSMIT;
         end
         TRANSMIT: begin 
-          tx <= data[WORD_SIZE-bit_counter-1];
-          if (bit_counter == (WORD_SIZE-1)) begin
-            bit_counter <= 0;
-            STATE <= DONE;
-          end else begin
-            bit_counter <= (bit_counter + 1);
-            STATE <= TRANSMIT;
-          end
+          if (baud) begin
+            tx <= data_send[WORD_SIZE-bit_counter-1];
+            if (bit_counter == (WORD_SIZE-1)) begin
+              bit_counter <= 0;
+              STATE <= DONE;
+            end else begin
+              bit_counter <= (bit_counter + 1);
+              STATE <= TRANSMIT;
+            end
+        end
         end
         DONE: begin
-          tx <= 1;
-          STATE <= IDLE;
+          if (baud) begin
+            tx <= 1;
+            STATE <= IDLE;
+          end
         end
       endcase
     end
@@ -103,16 +123,21 @@ module UART_TRANSMITTER
 
   always @ (posedge clk) begin
     if (rst) begin
-      tx_sent_i <= 0;;
+      STATE <= IDLE;
     end else begin
-      case (STATE):
-        DONE: begin
-          tx_sent_i <= 1;
+      case (STATE) 
+        IDLE: begin 
+          if (baud) begin
+            tx_avbl_i <= 1;
+          end else begin
+            tx_avbl_i <= 0;
+          end
         end
         default: begin
-          tx_sent_i <= 0;
-        end 
+          tx_avbl_i <= 0;
+        end
       endcase
     end
   end
+
 endmodule
