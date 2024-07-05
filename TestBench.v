@@ -67,6 +67,55 @@ module TB_Controller_Simulator ();
 
 endmodule
 
+module TB_OS_Write_to_NIC ();
+  // parameters
+  uart_parameters params();
+
+  // Declare signals
+  reg clk;
+  reg rst;
+  reg rx1; reg rx2;
+  wire tx1; wire tx2;
+
+  reg[7:0] data_in;
+  wire[7:0] data_out;
+
+  wire read_nic_i;
+
+  reg write_nic, read_nic;
+
+  // Modules
+  UART_CONTROLLER uart_controller(
+    .clk(clk),
+    .rst(rst),
+    .data_in(data_in),
+    .write_nic(write_nic), 
+    .read_nic(read_nic), 
+    .rx(rx1),
+    .data_out(data_out),
+    .read_nic_i(read_nic_i),
+    .tx(tx1)
+  );
+
+  initial begin
+    data_in <= 8'b01010101;
+    write_nic <= 1; #20;
+    write_nic <= 0; #40;
+    data_in <= 8'b10101010;
+    write_nic <= 1; #20;
+    write_nic <= 0;
+  end
+
+  initial begin
+    // clock
+    clk <= 0;
+    forever #10 clk = ~clk; // 20 ns cycle // 50 MHz
+  end
+
+
+
+endmodule
+
 module TB_Transmittor_Simulator (); // Test Receiver
   // parameters
   uart_parameters params();
