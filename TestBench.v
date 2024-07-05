@@ -67,43 +67,58 @@ module TB_Controller_Simulator ();
 
 endmodule
 
-module TB_OS_Write_to_NIC ();
+module TB_OS_Write_to_NIC_and_Read_from_NIC ();
   // parameters
   uart_parameters params();
 
   // Declare signals
   reg clk;
   reg rst;
-  reg rx1; reg rx2;
   wire tx1; wire tx2;
 
-  reg[7:0] data_in;
-  wire[7:0] data_out;
+  reg[7:0] data_in1, data_in2;
+  wire[7:0] data_out1, data_out2;
 
-  wire read_nic_i;
+  wire read_nic_i1, read_nic_i2;
 
-  reg write_nic, read_nic;
+  reg write_nic1, write_nic2, read_nic1, read_nic2;
 
   // Modules
-  UART_CONTROLLER uart_controller(
+  UART_CONTROLLER uart_controller1(
     .clk(clk),
     .rst(rst),
-    .data_in(data_in),
-    .write_nic(write_nic), 
-    .read_nic(read_nic), 
-    .rx(rx1),
-    .data_out(data_out),
-    .read_nic_i(read_nic_i),
+    .data_in(data_in1),
+    .write_nic(write_nic1), 
+    .read_nic(read_nic1), 
+    .rx(tx2),
+    .data_out(data_out1),
+    .read_nic_i(read_nic_i1),
     .tx(tx1)
   );
 
+  UART_CONTROLLER uart_controller_2(
+    .clk(clk),
+    .rst(rst),
+    .data_in(data_in2),
+    .write_nic(write_nic2), 
+    .read_nic(read_nic2), 
+    .rx(tx1),
+    .data_out(data_out2),
+    .read_nic_i(read_nic_i2),
+    .tx(tx2)
+  );
+
   initial begin
-    data_in <= 8'b01010101;
-    write_nic <= 1; #20;
-    write_nic <= 0; #40;
-    data_in <= 8'b10101010;
-    write_nic <= 1; #20;
-    write_nic <= 0;
+    data_in1 <= 8'b01010101;
+    write_nic1 <= 1; #20;
+    write_nic1 <= 0; #40;
+    data_in1 <= 8'b10101010;
+    write_nic1 <= 1; #20;
+    write_nic1 <= 0; #3000000;
+    read_nic2 <= 1; #20;
+    read_nic2 <= 0; #40;
+    read_nic2 <= 1; #20;
+    read_nic2 <= 0; 
   end
 
   initial begin
