@@ -7,19 +7,27 @@ module UART_main
     output		     [7:0]		HEX4,
     output		     [7:0]		HEX5,
 
+    output         two gpio
+    input          two gpio
+
     input          [1:0]    KEY,
 
     input 		     [9:0]		SW
   );
   
+  UART_OS_simulator OS1(
 
-  Binary_2_7SEG
-    (
-      .N(SW[7:0]),
-      .D0(HEX0),
-      .D1(HEX1),
-      .D2(HEX2)
-    );
+  );
+  UART_controller controller1(
+
+  );
+
+  UART_OS_simulator OS2(
+
+  );
+  UART_controller controller2(
+
+  );
 
 endmodule
 
