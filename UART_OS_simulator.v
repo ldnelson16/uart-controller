@@ -16,6 +16,16 @@ module UART_OS_simulator
   reg[7:0] data_display;
   reg[3:0] num_data_received;
 
+  reg trail_read_nic;
+
+  initial begin 
+    trail_read_nic <= 0;
+  end
+
+  always @ (posedge clk) begin
+    trail_read_nic <= read_nic;
+  end
+
   initial begin
     data_display <= 0;
     num_data_received <= 0;
@@ -48,9 +58,9 @@ module UART_OS_simulator
 
   // Logic for what to display
   always @ (posedge clk) begin
-    if (send_button) begin
+    if (editing_input_data) begin
       data_display <= send_data_from_buttons;
-    end else if (read_nic) begin
+    end else if (trail_read_nic) begin // one cycle after read_nic was issued (since it uses one cycle memory retrieval)
       data_display <= rec_data_from_nic;
     end
   end
