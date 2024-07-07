@@ -188,3 +188,38 @@ module TB_Transmittor_Simulator (); // Test Receiver
     rx <=1; #(params.BAUD*6); // IDLE
   end : simulator
 endmodule
+
+module TB_Main_Simulator ();
+
+  wire[7:0] HEX0_m, HEX1_m, HEX2_m, HEX3_m, HEX4_m, HEX5_m, LEDR_m;
+  reg clk;
+  reg[1:0] KEY_m;
+  reg[9:0] SW_m;
+
+  UART_main main(
+    .HEX0(HEX0_m),
+    .HEX1(HEX1_m),
+    .HEX2(HEX2_m),
+    .HEX3(HEX3_m),
+    .HEX4(HEX4_m),
+    .HEX5(HEX5_m),
+    .MAX10_CLK1_50(clk),
+    .KEY(KEY_m),
+    .SW(SW_m),
+    .LEDR(LEDR_m)
+  );
+
+  initial begin
+    KEY_m[1:0] <= 2'b11;
+    SW_m[7:0] <= 8'b10101010; SW_m[8] <= 1; SW_m[9] <= 0; #500;
+    KEY_m[0] <= 0; #200000;
+    KEY_m[0] <= 0;
+  end
+
+  initial begin
+    // clock
+    clk <= 0;
+    forever #10 clk = ~clk; // 20 ns cycle // 50 MHz
+  end
+
+endmodule
