@@ -1,6 +1,8 @@
 module UART_RECEIVER 
   #(
-    parameter WORD_SIZE = 8
+    parameter WORD_SIZE = 8,
+    parameter CLOCK_FREQ = 50000000,
+    parameter BAUD_RATE = 9600
   )
   (
     input wire clk,
@@ -9,14 +11,12 @@ module UART_RECEIVER
     output reg[WORD_SIZE-1:0] data_read,
     output reg rx_avbl_i // lets controller know a piece of data is available
   );
-  // Parameters
-  uart_parameters params();
 
   // Create Baud Clock Signal
   wire baud; 
-  localparam BAUD_LIMIT = params.CLOCK_FREQ / params.BAUD_RATE;
+  localparam BAUD_LIMIT = CLOCK_FREQ / BAUD_RATE;
   localparam QTR_BAUD = BAUD_LIMIT / 4;
-  localparam THR_QTR_BAUD = BAUD_LIMIT * 0.8;
+  localparam THR_QTR_BAUD = BAUD_LIMIT * 4 / 5;
   reg[15:0] baud_counter;
 
   initial begin 
@@ -45,20 +45,6 @@ module UART_RECEIVER
     rx_avbl_i <= 0;
   end
 
-  always @ (posedge clk) begin
-    if (rst) begin
-      baud_counter <= 0;
-    end else if (STATE != IDLE) begin
-      if (baud_counter == BAUD_LIMIT) begin
-        baud_counter <= 0;
-      end else begin
-        baud_counter <= (baud_counter + 1);
-      end
-    end else begin // STATE == IDLE
-      baud_counter <= 0;
-    end
-  end
-
   initial begin
     STATE <= IDLE;
   end
@@ -69,7 +55,17 @@ module UART_RECEIVER
       STATE <= IDLE;
       bit_counter <= 0;
       rx_avbl_i <= 0;
-    end else if (baud) begin
+      baud_counter <= 0;
+    end else if (STATE != IDLE) begin
+      if (baud_counter == BAUD_LIMIT) begin
+        baud_counter <= 0;
+      end else begin
+        baud_counter <= (baud_counter + 1);
+      end
+    end else begin
+      baud_counter <= 0;
+    end
+    if (baud && ~rst) begin
       case (STATE) 
         IDLE: begin 
           if (~rx) begin
@@ -84,8 +80,8 @@ module UART_RECEIVER
           // do nothing, as this is exited at quarter_baud
         end
         LISTEN: begin 
-          data_read[params.WORD_SIZE-1-bit_counter] <= rx; // catalog bit received
-          if (bit_counter == (params.WORD_SIZE-1)) begin
+          data_read[WORD_SIZE-1-bit_counter] <= rx; // catalog bit received
+          if (bit_counter == (WORD_SIZE-1)) begin
             bit_counter <= 0;
             STATE <= STOP;
           end else begin

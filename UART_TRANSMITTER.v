@@ -1,6 +1,8 @@
 module UART_TRANSMITTER
   #(
-    parameter WORD_SIZE = 8  
+    parameter WORD_SIZE = 8,
+    parameter CLOCK_FREQ = 50000000,
+    parameter BAUD_RATE = 9600
   )
   (
     input wire clk,
@@ -10,12 +12,10 @@ module UART_TRANSMITTER
     output reg tx_avbl_i,
     output reg tx
   );
-  // Parameters
-  uart_parameters params();
 
   // Create Baud Clock Signals
   wire baud; 
-  localparam BAUD_LIMIT = params.CLOCK_FREQ / params.BAUD_RATE;
+  localparam BAUD_LIMIT = CLOCK_FREQ / BAUD_RATE;
   reg[15:0] baud_counter;
 
   initial begin 
@@ -123,7 +123,7 @@ module UART_TRANSMITTER
 
   always @ (posedge clk) begin
     if (rst) begin
-      STATE <= IDLE;
+      tx_avbl_i <= 0;
     end else begin
       case (STATE) 
         IDLE: begin 
