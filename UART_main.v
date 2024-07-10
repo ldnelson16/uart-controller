@@ -7,8 +7,8 @@ module UART_main
     output		     [7:0]		HEX4,
     output		     [7:0]		HEX5,
 
-    // output         two gpio
-    // input          two gpio
+    output                  TX,
+    input                   RX,
 
     input                   MAX10_CLK1_50,
 
@@ -18,6 +18,8 @@ module UART_main
 
     output         [7:0]    LEDR
   );
+
+  assign TX = KEY[0];
 
   // signals for/from UART controllers
   reg rst;
