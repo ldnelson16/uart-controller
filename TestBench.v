@@ -1,12 +1,9 @@
 `timescale 1ns/1ns
 
 // TB_Transmitter_Simulator.v
-`include "UART_parameters.vh"
+`include "UART_parameters.sv"
 
 module TB_Controller_Simulator ();
-  // parameters
-  uart_parameters params();
-
   // Declare signals
   reg clk;
   reg rst;
@@ -195,6 +192,7 @@ module TB_Main_Simulator ();
   reg clk;
   reg[1:0] KEY_m;
   reg[9:0] SW_m;
+  reg rx; wire tx;
 
   UART_main main(
     .HEX0(HEX0_m),
@@ -203,17 +201,19 @@ module TB_Main_Simulator ();
     .HEX3(HEX3_m),
     .HEX4(HEX4_m),
     .HEX5(HEX5_m),
-    .MAX10_CLK1_50(clk),
+    .TX(tx),
+    .RX(rx),
+    .CLK(clk),
     .KEY(KEY_m),
     .SW(SW_m),
     .LEDR(LEDR_m)
   );
 
   initial begin
-    KEY_m[1:0] <= 2'b11;
-    SW_m[7:0] <= 8'b10101010; SW_m[8] <= 1; SW_m[9] <= 0; #500;
+    KEY_m[1:0] <= 2'b11; #50;
+    SW_m[7:0] <= 8'b10101010; SW_m[8] <= 1; #500;
     KEY_m[0] <= 0; #200000;
-    KEY_m[0] <= 0;
+    KEY_m[0] <= 1;
   end
 
   initial begin
