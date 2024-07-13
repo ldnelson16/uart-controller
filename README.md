@@ -21,9 +21,10 @@ We're aiming to transform this UART controller into a full-fledged NIC with:
 - **Interrupts**: Improve interrupt handling to keep data flowing smoothly.
 - **Performance Boost**: Use hardware acceleration to speed up data processing.
 
-## Hardware Deisgned On
+## Hardware Designed On
 
 - FPGA Development Board (Terasic DE10-Lite)
+- FPGA Development Board (Terasic DE0-Nano)
 
 ## License
 
