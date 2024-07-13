@@ -1,8 +1,15 @@
+// UART_TRANSMITTER.v
+
+`ifndef UART_TRANSMITTER
+`define UART_TRANSMITTER
+
+`include "UART_parameters.sv"
+
 module UART_TRANSMITTER
   #(
-    parameter WORD_SIZE = 8,
-    parameter CLOCK_FREQ = 50000000,
-    parameter BAUD_RATE = 9600
+    parameter WORD_SIZE = `WORD_SIZE_p,
+    parameter CLOCK_FREQ = `CLOCK_FREQ_p,
+    parameter BAUD_RATE = `BAUD_RATE_p
   )
   (
     input wire clk,
@@ -141,3 +148,5 @@ module UART_TRANSMITTER
   end
 
 endmodule
+
+`endif // UART_TRANSMITTER

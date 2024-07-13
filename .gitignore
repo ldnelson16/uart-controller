@@ -10,3 +10,6 @@ simulation/*
 *.qsf
 *.bak
 *.qpf
+transcript
+*.txt
+*.qws

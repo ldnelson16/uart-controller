@@ -1,8 +1,15 @@
+// UART_RECEIVER.v
+
+`include "UART_parameters.sv"
+
+`ifndef UART_RECEIVER
+`define UART_RECEIVER
+
 module UART_RECEIVER 
   #(
-    parameter WORD_SIZE = 8,
-    parameter CLOCK_FREQ = 50000000,
-    parameter BAUD_RATE = 9600
+    parameter WORD_SIZE = `WORD_SIZE_p,
+    parameter CLOCK_FREQ = `CLOCK_FREQ_p,
+    parameter BAUD_RATE = `BAUD_RATE_p
   )
   (
     input wire clk,
@@ -49,6 +56,13 @@ module UART_RECEIVER
     STATE <= IDLE;
   end
 
+  wire negedge_rx; reg prev_rx;
+  assign negedge_rx = (prev_rx && ~rx);
+
+  initial begin
+    prev_rx <= 1;
+  end
+
   // State Transition Logic to read serial incoming data
   always @ (posedge clk) begin
     if (rst) begin
@@ -68,7 +82,7 @@ module UART_RECEIVER
     if (baud && ~rst) begin
       case (STATE) 
         IDLE: begin 
-          if (~rx) begin
+          if (negedge_rx) begin // to catch negedge of rx
             STATE <= START;
             baud_counter <= 1; // to override the 0
           end
@@ -120,5 +134,8 @@ module UART_RECEIVER
     if (rx_avbl_i) begin
       rx_avbl_i <= 0;
     end
+    prev_rx <= rx;
   end
 endmodule
+
+`endif // UART_RECEIVER

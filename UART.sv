@@ -1,8 +1,17 @@
+// UART.v
+
+`include "UART_parameters.sv"
+`include "UART_RECEIVER.sv"
+`include "UART_TRANSMITTER.sv"
+
+`ifndef UART
+`define UART
+
 module UART_CONTROLLER 
   #(
-    parameter rx_RING_SIZE = 10,
-    parameter tx_RING_SIZE = 10,
-    parameter WORD_SIZE = 8
+    parameter rx_RING_SIZE =`RX_RING_SIZE_p,
+    parameter tx_RING_SIZE = `TX_RING_SIZE_p,
+    parameter WORD_SIZE = `WORD_SIZE_p
   )
   (
     input wire clk,
@@ -154,3 +163,5 @@ module UART_CONTROLLER
   end
 
 endmodule
+
+`endif // UART
