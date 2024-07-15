@@ -134,7 +134,7 @@ module UART_TRANSMITTER
     end else begin
       case (STATE) 
         IDLE: begin 
-          if (baud) begin
+          if (baud && ~tx_send_i) begin
             tx_avbl_i <= 1;
           end else begin
             tx_avbl_i <= 0;
