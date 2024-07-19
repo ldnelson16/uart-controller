@@ -13,3 +13,5 @@ simulation/*
 transcript
 *.txt
 *.qws
+UART/*
+UART/_*
