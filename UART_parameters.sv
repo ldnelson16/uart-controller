@@ -3,9 +3,13 @@
 `ifndef UART_PARAMETERS
 `define UART_PARAMETERS
 
-  // UART parameters
+// Basic parameters
+`define TRUE 1
+`define FALSE 0
+
+// UART parameters
 `define WORD_SIZE_p 8 // size of data being sent per UART frame
-`define BAUD_RATE_p 1000000 // bauds per second
+`define BAUD_RATE_p 1250000 // bauds per second
 `define CLOCK_FREQ_p 50000000 // 50 MHz system clock
 `define BAUD_p (CLOCK_FREQ_p / BAUD_RATE_p) // clock cycles per baud
 `define TX_RING_SIZE_p 15 // 
