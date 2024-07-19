@@ -23,6 +23,7 @@ module UART_TRANSMITTER
   // Create Baud Clock Signals
   wire baud; 
   localparam BAUD_LIMIT = CLOCK_FREQ / BAUD_RATE;
+  localparam TWO_BAUD_LIMIT = 2 * BAUD_LIMIT; // for guaranteed one BAUD wait between frames transmitted
   reg[15:0] baud_counter;
 
   initial begin 
@@ -54,7 +55,7 @@ module UART_TRANSMITTER
     end else begin
       case (STATE)
         IDLE: begin
-          if (baud || baud_counter == BAUD_LIMIT) begin
+          if (baud || baud_counter == TWO_BAUD_LIMIT) begin
             baud_counter <= 0;
           end else begin
             baud_counter <= (baud_counter + 1);
