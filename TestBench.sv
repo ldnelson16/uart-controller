@@ -7,44 +7,126 @@
 
 `include "UART_parameters.sv"
 
+// structs for tracking frames
+typedef struct packed {
+  int datum;
+  int time_sent;
+  bit received;
+} frame;
+
+class port; 
+  // member variables
+  frame tx_data[1000:0]; int tx_data_size; int tx_data_received;
+  frame rx_data[1000:0]; int rx_data_size;
+  bit verbose;
+  int port_number;
+
+  // constructor
+  function new (int port_number_in, bit verbose_in);
+    tx_data_size = 0; tx_data_received = 0;
+    rx_data_size = 0;
+    port_number = port_number_in;
+    verbose = verbose_in;
+  endfunction
+
+  // log_tx: logs a transmitted message to a port
+  function void log_tx (int datum);
+    if (verbose) begin 
+      $display("Transmitting on port %0d. Data: %0t, Time = %0t.",port_number, datum, $time);
+    end
+    tx_data[tx_data_size].datum = datum;
+    tx_data[tx_data_size].time_sent = $time;
+    tx_data[tx_data_size].received = `FALSE;
+    tx_data_size++;
+  endfunction
+
+  // log_rx: logs a received message to a port
+  function void log_rx (int datum);
+    if (verbose) begin 
+      $display("Receiving on port %0d. Data: %0t, Time = %0t.",port_number, datum, $time);
+    end
+    rx_data[rx_data_size].datum = datum;
+    rx_data[rx_data_size].time_sent = $time;
+    rx_data[rx_data_size].received = `FALSE;
+    rx_data_size++;
+  endfunction
+
+  // log_successful_tx
+  function void log_successful_tx (int datum);
+    for (int i=tx_data_size; i>=0; --i) begin
+      if (tx_data[i].datum == datum) begin
+        tx_data[i].received = `TRUE;
+        ++tx_data_received;
+        $display("Ratio: %d/%d", tx_data_received, tx_data_size);
+        return;
+      end
+    end
+  endfunction
+  
+endclass
+
+class topology;
+  // member variables
+  port ports[2];
+  
+  // constructor
+  function new (int num_ports);
+    for (int i=0; i<num_ports; ++i) begin
+      ports[i] = new(i, `TRUE);
+    end
+  endfunction
+
+  function void log_tx (int datum, int port_number);
+    ports[port_number].log_tx(datum);
+  endfunction
+
+  function void log_rx (int datum, int port_number);
+    ports[port_number].log_rx(datum);
+    ports[(port_number % 2)+1].log_successful_tx(datum);
+  endfunction
+endclass
+
 module TB_test_throughput();
   // Declare signals
-  reg clk; // clock
+  reg clk; integer cycle = 0; // clock  / cycle number
   reg rst; // reset
 
-  reg rx_1, rx_2; // rx signals
-  wire tx_1, tx_2; // tx signals
+  always @ (posedge clk) begin cycle++; end
 
-  reg write_nic_1, write_nic_2; // write signal to NIC
-  reg read_nic_1, read_nic_2; // read signal to NIC
+  wire tx_0, tx_1; // tx/rx signals
 
-  wire data_out_1, data_out_2; // data read from NIC 
-  wire read_nic_i_1, read_nic_i_2; // signals that data is to be read from NIC
+  reg write_nic_0, write_nic_1; // write signal to NIC
+  reg read_nic_0, read_nic_1; // read signal to NIC
 
-  reg[`WORD_SIZE_p:0] data_in_1, data_in_2; // data sent to NIC
+  wire[`WORD_SIZE_p-1:0] data_out_0, data_out_1; // data read from NIC 
+  wire read_nic_i_0, read_nic_i_1; // signals that data is to be read from NIC
 
-  reg[`WORD_SIZE_p:0] random_int_1, random_int_2; // to feed to transmit
+  reg[`WORD_SIZE_p-1:0] data_in_0, data_in_1; // data sent to NIC
+
+  reg[`WORD_SIZE_p-1:0] random_int_0, random_int_1; // to feed to transmit
   
   // Instantiate two UART modules
+  UART_CONTROLLER uart_controller_0(
+    .clk(clk),
+    .rst(rst),
+    .data_in(data_in_0),
+    .write_nic(write_nic_0),
+    .read_nic(read_nic_0),
+    .rx(tx_1),
+    .data_out(data_out_0),
+    .read_nic_i(read_nic_i_0),
+    .tx(tx_0)
+  );
   UART_CONTROLLER uart_controller_1(
     .clk(clk),
     .rst(rst),
     .data_in(data_in_1),
     .write_nic(write_nic_1),
-    .rx(rx_1),
+    .read_nic(read_nic_1),
+    .rx(tx_0),
     .data_out(data_out_1),
     .read_nic_i(read_nic_i_1),
     .tx(tx_1)
-  );
-  UART_CONTROLLER uart_controller_2(
-    .clk(clk),
-    .rst(rst),
-    .data_in(data_in_2),
-    .write_nic(write_nic_2),
-    .rx(rx_2),
-    .data_out(data_out_2),
-    .read_nic_i(read_nic_i_2),
-    .tx(tx_2)
   );
 
   // Clock signal
@@ -55,54 +137,87 @@ module TB_test_throughput();
 
   // Create randomized data for uart's to send
   initial begin
-    random_int_1 <= ($urandom % (2**`WORD_SIZE_p));
-    random_int_2 <= ($urandom % 256);
+    random_int_0 <= ($urandom % (2**`WORD_SIZE_p));
+    random_int_1 <= ($urandom % 256);
   end
   always @ (posedge clk) begin
+    random_int_0 <= ($urandom % (2**`WORD_SIZE_p));
     random_int_1 <= ($urandom % (2**`WORD_SIZE_p));
-    random_int_2 <= ($urandom % (2**`WORD_SIZE_p));
+  end
+
+  topology topology = new(2);
+
+  int send_for_max = (`CLOCK_FREQ_p / `BAUD_RATE_p) * (`WORD_SIZE_p + 2);
+  reg[11:0] clock_counter;
+
+  initial begin clock_counter = 0; end
+
+  always @ (posedge clk) begin
+    if (clock_counter == send_for_max) begin
+      clock_counter <= 0;
+    end else begin
+      clock_counter <= (clock_counter + 1);
+    end
   end
   
-  // Send randomized data to uart_1 (so uart_1 can send it) 2*TX_RING_SIZE_p clock cycles in a row
+  // Send randomized data to uart_0 (so uart_0 can send it) 2*TX_RING_SIZE_p clock cycles in a row
+  integer counter_0;
+
+  initial begin
+    counter_0 = 0;
+    @ (posedge clk);
+    forever begin
+      @(posedge clk);
+      if ((clock_counter == send_for_max) && (counter_0 < (20000 * `TX_RING_SIZE_p))) begin
+        write_nic_0 <= 1; 
+        data_in_0 <= random_int_0;
+        counter_0 = counter_0 + 1;
+        topology.log_tx(random_int_0,0);
+      end else begin
+        write_nic_0 <= 0;
+      end
+    end
+  end
+
+  // Send randomized data to uart_1 (so uart_1 can send it)
   integer counter_1;
 
   initial begin
     counter_1 = 0;
     forever begin
       @(posedge clk);
-      if (counter_1 < (2 * `TX_RING_SIZE_p)) begin
-        $display("Sending %0d out via transmitter 1", random_int_1);
-        write_nic_1 <= 1;
+      if ((clock_counter == send_for_max) && (counter_1 < (20000 * `TX_RING_SIZE_p))) begin
+        write_nic_1 <= 1; 
         data_in_1 <= random_int_1;
         counter_1 = counter_1 + 1;
+        topology.log_tx(random_int_1,1);
       end else begin
         write_nic_1 <= 0;
       end
     end
   end
 
-  // Send randomized data to uart_2 (so uart_2 can send it)
-  integer counter_2;
+  reg trail_read_nic_0, trail_read_nic_1; 
 
+  initial begin trail_read_nic_0 <= 0; trail_read_nic_1 <= 0; end
+  always @ (posedge clk) begin trail_read_nic_0 <= read_nic_0;  trail_read_nic_1 <= read_nic_1; end
+
+  // Read data from uart_0 (and verify with sent data from uart_1)
   initial begin
-    counter_2 = 0;
     forever begin
-      @(posedge clk);
-      if (counter_2 < (2 * `TX_RING_SIZE_p)) begin
-        $display("Sending %0d out via transmitter 2", random_int_2);
-        write_nic_2 <= 1;
-        data_in_2 <= random_int_2;
-        counter_2 = counter_2 + 1;
+      @ (posedge clk);
+      if (read_nic_i_0) begin
+        read_nic_0 <= 1;
       end else begin
-        write_nic_2 <= 0;
+        read_nic_0 <= 0;
       end
+      if (trail_read_nic_0) begin
+        topology.log_rx(data_out_0,0);
+      end 
     end
   end
 
-  // Read randomized data from uart_1 (and verify with sent data from uart_2)
-
-
-  // Read randomized data from uart_2 (and verify with sent data from uart_1)
+  // Read data from uart_1 (and verify with sent data from uart_0)
 endmodule
 
 // module TB_Controller_Simulator ();
@@ -113,13 +228,13 @@ endmodule
 //   wire tx1; wire tx2;
 
 //   // Modules
-//   UART_CONTROLLER uart_controller_1(
+//   UART_CONTROLLER uart_controller_0(
 //     .clk(clk),
 //     .rst(rst),
 //     .rx(rx1),
 //     .tx(tx1)
 //   );
-//   UART_CONTROLLER uart_controller_2(
+//   UART_CONTROLLER uart_controller_1(
 //     .clk(clk),
 //     .rst(rst),
 //     .rx(rx2),
@@ -195,7 +310,7 @@ endmodule
 //     .tx(tx1)
 //   );
 
-//   UART_CONTROLLER uart_controller_2(
+//   UART_CONTROLLER uart_controller_1(
 //     .clk(clk),
 //     .rst(rst),
 //     .data_in(data_in2),
