@@ -8,277 +8,541 @@ z2
 !i10f 100
 cModel Technology
 Z0 d//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller
-vBinary_2_7SEG
+XBINARY2SEG_sv_unit
 Z1 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
-Z2 !s110 1721008656
+VAJZQcX6OI>GLGKh2k;@c`2
+r1
+!s85 0
+31
+!i10b 1
+!s100 hF?3ZK[UjX0JPSXTe9[dH0
+IAJZQcX6OI>GLGKh2k;@c`2
+!i103 1
+S1
+R0
+Z2 w1721184853
+8//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/BINARY2SEG.sv
+F//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/BINARY2SEG.sv
+Z3 FUART_parameters.sv
+Z4 L0 20
+Z5 OV;L;10.5b;63
+Z6 !s108 1721184856.000000
+!s107 UART_parameters.sv|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/BINARY2SEG.sv|
+!s90 -reportprogress|300|-work|UART|-sv|-stats=none|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/BINARY2SEG.sv|
+!i113 1
+Z7 o-work UART -sv
+Z8 tCvgOpt 0
+n@b@i@n@a@r@y2@s@e@g_sv_unit
+vBinary_2_7SEG
+R1
+Z9 !s110 1721357270
 !i10b 1
 !s100 7h?0OHW=3EYh<nKMFLSZz0
 I`c@7`R_cEkaJeG6b=m^@e0
-Z3 VDg1SIo80bB@j0V0VzS_@n1
-Z4 !s105 UART_OS_simulator_sv_unit
+Z10 VDg1SIo80bB@j0V0VzS_@n1
+Z11 !s105 UART_OS_simulator_sv_unit
 S1
 R0
-Z5 w1720998777
+Z12 w1720998777
 8BINARY2SEG.sv
-FBINARY2SEG.sv
+Z13 FBINARY2SEG.sv
 L0 8
-Z6 OV;L;10.5b;63
+R5
 r1
 !s85 0
 31
-Z7 !s108 1721008656.000000
-Z8 !s107 UART_parameters.sv|BINARY2SEG.sv|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_OS_simulator.sv|
-Z9 !s90 -reportprogress|300|-work|UART|-sv|-stats=none|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_OS_simulator.sv|
+Z14 !s108 1721357270.000000
+Z15 !s107 UART_parameters.sv|BINARY2SEG.sv|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_OS_simulator.sv|
+Z16 !s90 -reportprogress|300|-work|UART|-sv|-stats=none|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_OS_simulator.sv|
 !i113 1
-Z10 o-work UART -sv
-Z11 tCvgOpt 0
+R7
+R8
 n@binary_2_7@s@e@g
 vbutton_buffer
 R1
-R2
+Z17 !s110 1721357269
 !i10b 1
 !s100 QBZ9`k@OKlj?h[]m7foEN2
 I]iK43M^JR17lzzRbDVb1@2
-R3
-Z12 !s105 UART_main_de10_lite_sv_unit
+R10
+Z18 !s105 UART_main_de10_lite_sv_unit
 S1
 R0
-R5
+R12
 8extra_functions.sv
-Fextra_functions.sv
+Z19 Fextra_functions.sv
 L0 8
-R6
+R5
 r1
 !s85 0
 31
-Z13 !s108 1721008655.000000
-Z14 !s107 extra_functions.sv|UART_TRANSMITTER.sv|UART_RECEIVER.sv|UART.sv|UART_parameters.sv|BINARY2SEG.sv|UART_OS_simulator.sv|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_main_de10_lite.sv|
-Z15 !s90 -reportprogress|300|-work|UART|-sv|-stats=none|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_main_de10_lite.sv|
+Z20 !s108 1721357268.000000
+Z21 !s107 extra_functions.sv|UART_TRANSMITTER.sv|UART_RECEIVER.sv|UART.sv|UART_parameters.sv|BINARY2SEG.sv|UART_OS_simulator.sv|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_main_de10_lite.sv|
+Z22 !s90 -reportprogress|300|-work|UART|-sv|-stats=none|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_main_de10_lite.sv|
 !i113 1
-R10
-R11
+R7
+R8
+Xextra_functions_sv_unit
+R1
+VkB3cMikC?Xa3FHcD_HkmT3
+r1
+!s85 0
+31
+!i10b 1
+!s100 dB[1bJzzz;l5eb7m6:i4f2
+IkB3cMikC?Xa3FHcD_HkmT3
+!i103 1
+S1
+R0
+R2
+8//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/extra_functions.sv
+F//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/extra_functions.sv
+R3
+R4
+R5
+Z23 !s108 1721184857.000000
+!s107 UART_parameters.sv|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/extra_functions.sv|
+!s90 -reportprogress|300|-work|UART|-sv|-stats=none|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/extra_functions.sv|
+!i113 1
+R7
+R8
 vTB_test_throughput
 R1
-Z16 !s110 1721008657
+DXx4 work 17 TestBench_sv_unit 0 22 D3:lAHHjR_Z<Li:aSmO>k2
+R10
+r1
+!s85 0
+31
 !i10b 1
-!s100 BA8I[I9Mh43VRIQS[1J<b2
-IOkT:zX9_cQ>=S`T73?^K72
-R3
+!s100 Y>3WMnZI6Z7?_lMo[Kj_?1
+I^4_An?PjhOON9X;KG?n<Q0
 !s105 TestBench_sv_unit
 S1
 R0
-w1721008105
-8//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/TestBench.sv
-F//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/TestBench.sv
-Z17 L0 10
-R6
+Z24 w1721356185
+Z25 8//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/TestBench.sv
+Z26 F//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/TestBench.sv
+L0 89
+R5
+Z27 !s108 1721357272.000000
+Z28 !s107 UART_parameters.sv|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/TestBench.sv|
+Z29 !s90 -reportprogress|300|-work|UART|-sv|-stats=none|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/TestBench.sv|
+!i113 1
+R7
+R8
+n@t@b_test_throughput
+XTestBench_sv_unit
+R1
+VD3:lAHHjR_Z<Li:aSmO>k2
 r1
 !s85 0
 31
-Z18 !s108 1721008657.000000
-!s107 UART_parameters.sv|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/TestBench.sv|
-!s90 -reportprogress|300|-work|UART|-sv|-stats=none|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/TestBench.sv|
+!i10b 1
+!s100 m<>Ko<;m4_7@1Fdd`Ug6>3
+ID3:lAHHjR_Z<Li:aSmO>k2
+!i103 1
+S1
+R0
+R24
+R25
+R26
+R3
+L0 11
+R5
+R27
+R28
+R29
 !i113 1
-R10
-R11
-n@t@b_test_throughput
+R7
+R8
+n@test@bench_sv_unit
 vUART_CONTROLLER
 R1
-R2
+R17
 !i10b 1
 !s100 ;Deo<76IV^SZ@E9Fzg5]b2
 IhCZg25M:=7k?2YIB_j>R13
-R3
-R12
+R10
+R18
 S1
 R0
 w1721006981
 8UART.sv
-FUART.sv
-R17
-R6
-r1
-!s85 0
-31
-R13
-R14
-R15
-!i113 1
-R10
-R11
-n@u@a@r@t_@c@o@n@t@r@o@l@l@e@r
-vUART_main
-R1
-Z19 !s110 1721008655
-!i10b 1
-!s100 I@glZFeEE?GQMaM?]N<lm2
-IcVJ6e[afGFK[4lJFk;o552
-R3
-!s105 UART_main_sv_unit
-S1
-R0
+Z30 FUART.sv
+Z31 L0 10
 R5
-8//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_main.sv
-F//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_main.sv
-R17
-R6
 r1
 !s85 0
 31
-!s108 1721008654.000000
-!s107 extra_functions.sv|UART_TRANSMITTER.sv|UART_RECEIVER.sv|UART.sv|UART_parameters.sv|BINARY2SEG.sv|UART_OS_simulator.sv|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_main.sv|
-!s90 -reportprogress|300|-work|UART|-sv|-stats=none|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_main.sv|
-!i113 1
-R10
-R11
-n@u@a@r@t_main
-vUART_main_de0_nano
-R1
-R19
-!i10b 1
-!s100 QEJGB9hbG;gPbhemYedN:3
-IYh]R>WPmlmcHhdPUmEMVM3
-R3
-!s105 UART_main_de0_nano_sv_unit
-S1
-R0
-R5
-8//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_main_de0_nano.sv
-F//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_main_de0_nano.sv
-L0 12
-R6
-r1
-!s85 0
-31
-R13
-!s107 //wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_main_de0_nano.sv|
-!s90 -reportprogress|300|-work|UART|-sv|-stats=none|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_main_de0_nano.sv|
-!i113 1
-R10
-R11
-n@u@a@r@t_main_de0_nano
-vUART_main_de10_lite
-R1
-R2
-!i10b 1
-!s100 3I=>nIbN=B9VTF8^k4oe^0
-Ik=dN6EOPVDj@=Cj12=<D60
-R3
-R12
-S1
-R0
-R5
-8//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_main_de10_lite.sv
-F//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_main_de10_lite.sv
-R17
-R6
-r1
-!s85 0
-31
-R13
-R14
-R15
-!i113 1
-R10
-R11
-n@u@a@r@t_main_de10_lite
-vUART_OS_simulator_binary
-R1
-R2
-!i10b 1
-!s100 coh[WRhR@F]_O5WfKRmUP0
-I9eNJ^7C3>]UTRGlNEZbRK3
-R3
-R4
-S1
-R0
-Z20 w1721000148
-Z21 8//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_OS_simulator.sv
-Z22 F//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_OS_simulator.sv
-L0 87
-R6
-r1
-!s85 0
-31
-R7
-R8
-R9
-!i113 1
-R10
-R11
-n@u@a@r@t_@o@s_simulator_binary
-vUART_OS_simulator_HEX
-R1
-R2
-!i10b 1
-!s100 @U_C=^ja^bd@gNVKR_dbU0
-I?gKCj9VOA4QiK9DnDSm2M2
-R3
-R4
-S1
-R0
 R20
 R21
 R22
-L0 8
-R6
+!i113 1
+R7
+R8
+n@u@a@r@t_@c@o@n@t@r@o@l@l@e@r
+vUART_main
+R1
+!s110 1721357267
+!i10b 1
+!s100 I@glZFeEE?GQMaM?]N<lm2
+IcVJ6e[afGFK[4lJFk;o552
+R10
+!s105 UART_main_sv_unit
+S1
+R0
+R12
+Z32 8//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_main.sv
+Z33 F//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_main.sv
+R31
+R5
 r1
 !s85 0
 31
+!s108 1721357266.000000
+Z34 !s107 extra_functions.sv|UART_TRANSMITTER.sv|UART_RECEIVER.sv|UART.sv|UART_parameters.sv|BINARY2SEG.sv|UART_OS_simulator.sv|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_main.sv|
+Z35 !s90 -reportprogress|300|-work|UART|-sv|-stats=none|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_main.sv|
+!i113 1
 R7
 R8
-R9
+n@u@a@r@t_main
+vUART_main_de0_nano
+R1
+!s110 1721357268
+!i10b 1
+!s100 QEJGB9hbG;gPbhemYedN:3
+IYh]R>WPmlmcHhdPUmEMVM3
+R10
+!s105 UART_main_de0_nano_sv_unit
+S1
+R0
+R12
+8//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_main_de0_nano.sv
+F//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_main_de0_nano.sv
+L0 12
+R5
+r1
+!s85 0
+31
+R20
+!s107 //wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_main_de0_nano.sv|
+!s90 -reportprogress|300|-work|UART|-sv|-stats=none|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_main_de0_nano.sv|
 !i113 1
+R7
+R8
+n@u@a@r@t_main_de0_nano
+vUART_main_de10_lite
+R1
+R17
+!i10b 1
+!s100 3I=>nIbN=B9VTF8^k4oe^0
+Ik=dN6EOPVDj@=Cj12=<D60
+R10
+R18
+S1
+R0
+R12
+Z36 8//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_main_de10_lite.sv
+Z37 F//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_main_de10_lite.sv
+R31
+R5
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 1
+R7
+R8
+n@u@a@r@t_main_de10_lite
+XUART_main_de10_lite_sv_unit
+R1
+VL4=5angnVe@Y=Q^ZY3i<53
+r1
+!s85 0
+31
+!i10b 1
+!s100 1]C618L:Tf52>Y@cH[KRl0
+IL4=5angnVe@Y=Q^ZY3i<53
+!i103 1
+S1
+R0
+R2
+R36
+R37
+Z38 FUART_OS_simulator.sv
+R13
+R3
+R30
+Z39 FUART_RECEIVER.sv
+Z40 FUART_TRANSMITTER.sv
+R19
+R4
+R5
+!s108 1721184859.000000
+R21
+R22
+!i113 1
+R7
+R8
+n@u@a@r@t_main_de10_lite_sv_unit
+XUART_main_sv_unit
+R1
+VT?UIK:>oZ9P5X6h?TM[?T2
+r1
+!s85 0
+31
+!i10b 1
+!s100 A8bekQX1REVCMz5gDk9;P2
+IT?UIK:>oZ9P5X6h?TM[?T2
+!i103 1
+S1
+R0
+R2
+R32
+R33
+R38
+R13
+R3
+R30
+R39
+R40
+R19
+R4
+R5
+!s108 1721184858.000000
+R34
+R35
+!i113 1
+R7
+R8
+n@u@a@r@t_main_sv_unit
+vUART_OS_simulator_binary
+R1
+R9
+!i10b 1
+!s100 coh[WRhR@F]_O5WfKRmUP0
+I9eNJ^7C3>]UTRGlNEZbRK3
 R10
 R11
+S1
+R0
+Z41 w1721000148
+Z42 8//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_OS_simulator.sv
+Z43 F//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_OS_simulator.sv
+L0 87
+R5
+r1
+!s85 0
+31
+R14
+R15
+R16
+!i113 1
+R7
+R8
+n@u@a@r@t_@o@s_simulator_binary
+vUART_OS_simulator_HEX
+R1
+R9
+!i10b 1
+!s100 @U_C=^ja^bd@gNVKR_dbU0
+I?gKCj9VOA4QiK9DnDSm2M2
+R10
+R11
+S1
+R0
+R41
+R42
+R43
+L0 8
+R5
+r1
+!s85 0
+31
+R14
+R15
+R16
+!i113 1
+R7
+R8
 n@u@a@r@t_@o@s_simulator_@h@e@x
+XUART_OS_simulator_sv_unit
+R1
+V@54NT06J;K8FJVBCIgW8O1
+r1
+!s85 0
+31
+!i10b 1
+!s100 5PiRL95=XHn3]Tb8T>CiW1
+I@54NT06J;K8FJVBCIgW8O1
+!i103 1
+S1
+R0
+R2
+R42
+R43
+R13
+R3
+R4
+R5
+Z44 !s108 1721184860.000000
+R15
+R16
+!i113 1
+R7
+R8
+n@u@a@r@t_@o@s_simulator_sv_unit
+XUART_parameters_sv_unit
+R1
+!s110 1721184860
+!i10b 1
+!s100 jX^;TjJ[LiJokRo<CLOMd0
+I9Qz>kYZSBo<IPZE`biL?[3
+V9Qz>kYZSBo<IPZE`biL?[3
+!i103 1
+S1
+R0
+R2
+8//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_parameters.sv
+F//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_parameters.sv
+R4
+R5
+r1
+!s85 0
+31
+R44
+!s107 //wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_parameters.sv|
+!s90 -reportprogress|300|-work|UART|-sv|-stats=none|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_parameters.sv|
+!i113 1
+R7
+R8
+n@u@a@r@t_parameters_sv_unit
 vUART_RECEIVER
 R1
-R16
+!s110 1721357271
 !i10b 1
-!s100 <L9PBO6SAX:1C@Kan9nd21
-I>fe7B20=DRXV>VVZTb6z=2
-R3
+!s100 89cndlQbc[FzVjLW2[G7]3
+Ic0WL]R^>_D1a2c10H9O4W1
+R10
 !s105 UART_RECEIVER_sv_unit
 S1
 R0
-R5
-8//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_RECEIVER.sv
-F//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_RECEIVER.sv
+R12
+Z45 8//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_RECEIVER.sv
+Z46 F//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_RECEIVER.sv
 L0 8
-R6
+R5
 r1
 !s85 0
 31
-R18
-!s107 UART_parameters.sv|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_RECEIVER.sv|
-!s90 -reportprogress|300|-work|UART|-sv|-stats=none|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_RECEIVER.sv|
+!s108 1721357271.000000
+Z47 !s107 UART_parameters.sv|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_RECEIVER.sv|
+Z48 !s90 -reportprogress|300|-work|UART|-sv|-stats=none|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_RECEIVER.sv|
 !i113 1
-R10
-R11
+R7
+R8
 n@u@a@r@t_@r@e@c@e@i@v@e@r
-vUART_TRANSMITTER
+XUART_RECEIVER_sv_unit
 R1
-R2
+VPca>LJC>J6^mU@2=YSh^b1
+r1
+!s85 0
+31
 !i10b 1
-!s100 JlFK4`XWZmJ`G3VjMSZR73
-IWH>12DboN0_Hm41LULVbI1
-R3
-R12
+!s100 [kIUa4OUP7QkAW:^jJ<J60
+IPca>LJC>J6^mU@2=YSh^b1
+!i103 1
 S1
 R0
-w1721007483
-8UART_TRANSMITTER.sv
-FUART_TRANSMITTER.sv
-L0 8
-R6
+R2
+R45
+R46
+R3
+R4
+R5
+R44
+R47
+R48
+!i113 1
+R7
+R8
+n@u@a@r@t_@r@e@c@e@i@v@e@r_sv_unit
+XUART_sv_unit
+R1
+V;LzG;dQAEIXRZHF:B]EGc3
 r1
 !s85 0
 31
-R13
-R14
-R15
+!i10b 1
+!s100 G2O56bda?ki3cG3oLbz:01
+I;LzG;dQAEIXRZHF:B]EGc3
+!i103 1
+S1
+R0
+R2
+8//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART.sv
+F//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART.sv
+R3
+R39
+R40
+R4
+R5
+R23
+!s107 UART_TRANSMITTER.sv|UART_RECEIVER.sv|UART_parameters.sv|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART.sv|
+!s90 -reportprogress|300|-work|UART|-sv|-stats=none|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART.sv|
 !i113 1
+R7
+R8
+n@u@a@r@t_sv_unit
+vUART_TRANSMITTER
+R1
+R17
+!i10b 1
+!s100 cahI0z2?zdh_D]A6bhDUJ0
+Ilfh@NoANe69?g:OB`KBm00
 R10
-R11
+R18
+S1
+R0
+w1721357260
+8UART_TRANSMITTER.sv
+R40
+L0 8
+R5
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 1
+R7
+R8
 n@u@a@r@t_@t@r@a@n@s@m@i@t@t@e@r
+XUART_TRANSMITTER_sv_unit
+R1
+VIVQ5JR[WifLWdjfXamVXO1
+r1
+!s85 0
+31
+!i10b 1
+!s100 NVU>T[^]bDRFUlX><JZXK2
+IIVQ5JR[WifLWdjfXamVXO1
+!i103 1
+S1
+R0
+R2
+8//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_TRANSMITTER.sv
+F//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_TRANSMITTER.sv
+R3
+R4
+R5
+R6
+!s107 UART_parameters.sv|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_TRANSMITTER.sv|
+!s90 -reportprogress|300|-work|UART|-sv|-stats=none|//wsl.localhost/Ubuntu/home/lukenels/GitHubLinux/uart-controller/UART_TRANSMITTER.sv|
+!i113 1
+R7
+R8
+n@u@a@r@t_@t@r@a@n@s@m@i@t@t@e@r_sv_unit
