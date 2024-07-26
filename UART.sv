@@ -129,7 +129,7 @@ module UART_CONTROLLER
       tx_write_ptr <= 0;
     end else begin 
       // Send to UART transmittor logic
-      if (tx_ring_size >= 1 && tx_avbl_i) begin
+      if (tx_ring_size >= 1 && tx_avbl_i && ~tx_data_i) begin
         tx_data <= tx_ring_buffer[tx_read_ptr];
         tx_data_i <= 1;
         tx_ring_size = (tx_ring_size - 1);
